@@ -1,0 +1,35 @@
+@import url('//fonts.googleapis.com/css?family=Noto+Sans+SC');
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+#shiny-tab-home h2 {
+  font-weight: 800;
+  font-size: 45px;
+}
+
+#shiny-tab-home h3 {
+  margin-top: 25px;
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+#shiny-tab-home {
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+#shiny-tab-one, #shiny-tab-two, #shiny-tab-three {
+  margin-top: 15px;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+#shiny-tab-one h3 {
+  margin-top: 5px;
+  font-weight: lighter;
+}
+
+.content-wrapper {
+  background-color: #F9F9F9;
+}
