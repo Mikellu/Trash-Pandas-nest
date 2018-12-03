@@ -1,3 +1,12 @@
+library(shiny)
+library(R.utils)
+library(data.table)
+library(ggplot2)
+library(maps)
+library(mapproj)
+library(lubridate)
+library(dplyr)
+
 amazon_state <- data.table::fread("googlestate/state-pop-amazon.csv")
 amazon_state <- amazon_state[-c(4, 26), ]
 amazon_state$Region <- tolower(amazon_state$Region)
@@ -60,25 +69,15 @@ states_final$date <- amazon_trend$Week
 states_final <- as.data.frame(t(states_final))
 colnames(states_final) <- as.character(states_final["date", ])
 
-library(shiny)
-library(R.utils)
-library(data.table)
-library(ggplot2)
-library(maps)
-library(mapproj)
-library(lubridate)
-library(dplyr)
-
-library(ggplot2)
-library(maps)
 states <- map_data("state")
 map.df <- merge(states,amazon_state, by="region", all.x=T)
 map.df <- map.df[order(map.df$order),]
 a <- ggplot(map.df, aes(x=long,y=lat,group=group))+
   geom_polygon(aes(fill=order))+
   geom_path()+ 
-  scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90")+
+  scale_fill_gradientn(colours=rev(heat.colors(10)), na.value="grey90", name = "Nhu title")+
   coord_map()
+print(a)
 
 states <- map_data("state")
 dim(states)
