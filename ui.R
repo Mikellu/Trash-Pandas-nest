@@ -27,7 +27,10 @@ shinyUI(fluidPage(
     
     mainPanel(
       h2("Stock of companies and Popularity hit on Google"),
-      plotOutput("plot1")
+      plotOutput("plot1"),
+      h2("3D Plot"),
+      plotlyOutput("plot2"),
+      plotlyOutput("plot3")
     )
   )
 ))
