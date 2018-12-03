@@ -77,4 +77,42 @@ shinyServer(function(input, output) {
     return(base)
   })
   
+  facebook_3d <- read.csv("3dplot-data/facebook-final.csv")
+  
+  output$plot2 <- renderPlotly({
+    p <- plot_ly(facebook_3d, x = ~Hit, y = ~News, z = ~Close,
+                 marker = list(color = ~Hit, colorscale = c('#FFE1A1', '#683531'), showscale = TRUE)) %>%
+      add_markers() %>%
+      layout(scene = list(xaxis = list(title = 'Search Hit'),
+                          yaxis = list(title = 'News Mention'),
+                          zaxis = list(title = 'Stock Price')),
+             annotations = list(
+               x = 2,
+               y = 1.05,
+               text = 'Miles/(US) gallon',
+               xref = 'paper',
+               yref = 'paper',
+               showarrow = FALSE
+             ))
+  })
+  
+  twitter_3d <- read.csv("3dplot-data/twitter-final.csv")
+  
+  output$plot3 <- renderPlotly({
+    p <- plot_ly(twitter_3d, x = ~Hit, y = ~News, z = ~Close, 
+                 marker = list(color = ~News, colorscale = c('#FFE1A1', '#683531'), showscale = TRUE)) %>%
+      add_markers() %>%
+      layout(scene = list(xaxis = list(title = 'Search Hit'),
+                          yaxis = list(title = 'News Mention'),
+                          zaxis = list(title = 'Stock Price')),
+             annotations = list(
+               x = 1.13,
+               y = 1.05,
+               text = 'Miles/(US) gallon',
+               xref = 'paper',
+               yref = 'paper',
+               showarrow = FALSE
+             ))
+  })
+  
 })
