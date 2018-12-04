@@ -61,7 +61,7 @@ for (i in 7:266) {
 }
 write.csv(map.df, file = paste("processed data/twitter.csv"), row.names = FALSE)
 a <- ggplot(map.df, aes(x=long,y=lat,group= map.df$group))+
-  geom_polygon(aes(fill=`2014-04-06`))+
+  geom_polygon(aes(fill = map.df[, "2013-12-01"]))+
   geom_path()+ 
   scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90", limits=c(0,10000))+
   coord_map()
