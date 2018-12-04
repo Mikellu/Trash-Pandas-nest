@@ -14,7 +14,7 @@ amazon_state$Region <- tolower(amazon_state$Region)
 amazon_state <- rename(amazon_state, region = Region)
 amazon_state_copy <- amazon_state
 
-amazon_trend <- data.table::fread("googlesearch/BTC_trend.csv") 
+amazon_trend <- data.table::fread("googlesearch/AMAZ_trend.csv") 
 amazon_trend <- amazon_trend[-c(261), ]
 
 state_abb <- data.table::fread("state-abbreviations.csv") 
