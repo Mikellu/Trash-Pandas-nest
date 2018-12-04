@@ -109,4 +109,9 @@ shinyServer(function(input, output) {
     render_3d_standard(twitter_3d, "Stock Price vs News Mention<br>vs Search Hit for Twitter<br> from 2013 to 2018")
   })
   
+  # heatmap plotting
+  amazon_map_data <- read.csv("heatmap_data/processed data/amazon.csv", stringsAsFactors = FALSE)
+  fb_map_data <- read.csv("heatmap_data/processed data/fb.csv", stringsAsFactors = FALSE)
+  
+  
 })
