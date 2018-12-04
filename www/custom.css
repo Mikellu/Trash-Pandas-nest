@@ -8,6 +8,11 @@ body {
   font-size: 45px;
 }
 
+#shiny-tab-three h2 {
+  font-weight: 800;
+  font-size: 35px;
+}
+
 #shiny-tab-home h3 {
   margin-top: 25px;
   margin-bottom: 20px;
@@ -27,7 +32,14 @@ body {
 
 #shiny-tab-one h3 {
   margin-top: 5px;
-  font-weight: lighter;
+}
+
+.crisp {
+  display: none !important;
+}
+
+.cboutline {
+  display: none !important;
 }
 
 .content-wrapper {

@@ -39,9 +39,10 @@ shinyUI(dashboardPage(
         h3("FURTHER ANALYSIS"),
         h3("DATA SOURCE"),
         fluidRow(
-          valueBox("Google Trends", "Search Hit API", icon = icon("google"), color = "aqua"),
-          valueBox("The Guardian", "News API", icon = icon("newspaper"), color = "light-blue"),
-          valueBox("The NY Times", "News API", icon = icon("newspaper"), color = "blue")
+          
+          valueBox("Google Trends", "Search Hit API", icon = icon("google"), color = "aqua", href = "https://trends.google.com/trends/\" target=\"_blank"),
+          valueBox("The Guardian", "News API", icon = icon("newspaper"), color = "light-blue", href = "https://open-platform.theguardian.com/\" target=\"_blank"),
+          valueBox("The NY Times", "News API", icon = icon("newspaper"), color = "blue", href = "https://developer.nytimes.com/\" target=\"_blank")
         )
       ),
       # Second tab content
@@ -71,7 +72,7 @@ shinyUI(dashboardPage(
       # Fourth tab content
       tabItem(
         tabName = "three",
-        h2("3D Plot - need to finish"),
+        h2("Trend of News Mention with Stock Price and Search Hit"),
         fluidRow(box(status = "warning", plotlyOutput("plot2")), box(status = "warning", plotlyOutput("plot3")))
       )
     )
