@@ -10,24 +10,70 @@ tesla_data <- read.csv("stock/TSLA.csv", stringsAsFactors = FALSE)
 tesla_data$Date <- as.Date(tesla_data$Date, "%m/%d/%Y")
 
 
-shinyUI(fluidPage(
-  titlePanel("Popularity Exposure VS Stock market"),
-  
-  # Sidebar with a slider input for number of bins 
-  sidebarLayout(
-    sidebarPanel(
-      dateRangeInput("dates", 
-                     label = h3("Date range"),
-                     start = as.Date(0, origin = "2013-12-02"),
-                     end = as.Date(0, origin = "2018-11-26"),
-                     min = as.Date(0, origin = "2013-12-02"),
-                     max = as.Date(0, origin = "2018-11-26")),
-      selectInput("Subject", "Subject Name", choices=list("Amazon", "Bitcoin", "Facebook", "Twitter", "Tesla"))
+shinyUI(dashboardPage(
+  skin = "black",
+  dashboardHeader(title = "Popularity Exposure VS Stock market", titleWidth = 350),
+  dashboardSidebar(
+    width = 350,
+    sidebarMenu(
+      id = "sidebar",
+      menuItem("HOME", tabName = "home", icon = icon("columns")),
+      menuItem("STOCK VS SEARCH TREND", tabName = "one", icon = icon("chart-line")),
+      menuItem("HEATMAP", tabName = "two", icon = icon("map")),
+      menuItem("3D STOCK GRAPH", tabName = "three", icon = icon("chart-area"))
     ),
-    
-    mainPanel(
-      h2("Stock of companies and Popularity hit on Google"),
-      plotOutput("plot1")
+    uiOutput("style_tag")
+  ),
+  dashboardBody(
+    tags$head(
+      tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
+    ),
+    tabItems(
+      # First tab content
+      tabItem(
+        tabName = "home",
+        h2("PROJECT OVERVIEW"),
+        p("purpose & general description of data & and structure of the app"),
+        h3("OUR AUDIENCE"),
+        h3("QUESTIONS"),
+        h3("FURTHER ANALYSIS"),
+        h3("DATA SOURCE"),
+        fluidRow(
+          valueBox("Google Trends", "Search Hit API", icon = icon("google"), color = "aqua"),
+          valueBox("The Guardian", "News API", icon = icon("newspaper"), color = "light-blue"),
+          valueBox("The NY Times", "News API", icon = icon("newspaper"), color = "blue")
+        )
+      ),
+      # Second tab content
+      tabItem(
+        tabName = "one",
+        fluidRow(
+          box(
+            status = "info",
+            dateRangeInput("dates",
+              label = h3("Date range"),
+              start = as.Date(0, origin = "2013-12-02"),
+              end = as.Date(0, origin = "2018-11-26"),
+              min = as.Date(0, origin = "2013-12-02"),
+              max = as.Date(0, origin = "2018-11-26")
+            ),
+            selectInput("Subject", h3("Company Name"), choices = list("Amazon", "Bitcoin", "Facebook", "Twitter", "Tesla"))
+          ),
+          box(
+            status = "warning",
+            h3("Stock of Companies and Popularity Hit on Google"),
+            plotOutput("plot1")
+          )
+        )
+      ),
+      # Third tab content
+      tabItem(tabName = "two"),
+      # Fourth tab content
+      tabItem(
+        tabName = "three",
+        h2("3D Plot - need to finish"),
+        fluidRow(box(status = "warning", plotlyOutput("plot2")), box(status = "warning", plotlyOutput("plot3")))
+      )
     )
   )
 ))

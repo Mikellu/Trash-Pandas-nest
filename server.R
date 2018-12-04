@@ -7,6 +7,7 @@ library(R.utils)
 library(lubridate)
 library(scales)
 library(plotly)
+library(shinydashboard)
 
 amazon_data <- read.csv("stock/AMZN.csv", stringsAsFactors = FALSE)
 amazon_data$Date <- as.Date(amazon_data$Date, "%m/%d/%Y")
@@ -75,6 +76,37 @@ shinyServer(function(input, output) {
                                                                       linetype="dashed", color = "orange")
     }
     return(base)
+  })
+  
+  facebook_3d <- read.csv("3dplot-data/facebook-final.csv")
+  twitter_3d <- read.csv("3dplot-data/twitter-final.csv")
+  
+  render_3d_standard <- function(data, p_title) {
+    p <- plot_ly(data, x = ~Hit, y = ~News, z = ~Close,
+                 marker = list(size = 7, color = ~News, colorscale = c('#FFE1A1', '#683531'), showscale = TRUE)) %>%
+      add_markers() %>%
+      layout(title = p_title,
+             height = 500,
+        scene = list(xaxis = list(title = 'Search Hit (%)'),
+                          yaxis = list(title = 'News Mention'),
+                          zaxis = list(title = 'Stock Price')),
+             annotations = list(
+               x = 1.13,
+               y = 1.05,
+               text = 'Weekly News Mention',
+               xref = 'paper',
+               yref = 'paper',
+               showarrow = TRUE
+             ))
+    return(p)
+  }
+  
+  output$plot2 <- renderPlotly({
+    render_3d_standard(facebook_3d, "Stock Price vs News Mention<br>vs Search Hit for Facebook<br> from 2013 to 2018")
+  })
+  
+  output$plot3 <- renderPlotly({
+    render_3d_standard(twitter_3d, "Stock Price vs News Mention<br>vs Search Hit for Twitter<br> from 2013 to 2018")
   })
   
 })
