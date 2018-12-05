@@ -109,8 +109,8 @@ shinyServer(function(input, output) {
   })
   
   # heatmap plotting
-  amazon_map_data <- read.csv("heatmap_data/processed data/amazon.csv", stringsAsFactors = FALSE)
-  fb_map_data <- read.csv("heatmap_data/processed data/facebook.csv", stringsAsFactors = FALSE)
+  amazon_map_data <- read.csv("heatmap_data/processed_data/amazon.csv", stringsAsFactors = FALSE)
+  fb_map_data <- read.csv("heatmap_data/processed_data/facebook.csv", stringsAsFactors = FALSE)
   
   
 })

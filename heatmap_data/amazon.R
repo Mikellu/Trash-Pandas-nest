@@ -59,7 +59,7 @@ map.df <- map.df[order(map.df$order),]
 for (i in 7:266) {
   map.df[, i]=as.numeric(levels(map.df[, i]))[map.df[, i]]
 }
-write.csv(map.df, file = paste("processed data/amazon.csv"), row.names = FALSE)
+write.csv(map.df, file = paste("processed_data/amazon.csv"), row.names = FALSE)
 a <- ggplot(map.df, aes(x=long,y=lat,group= map.df$group))+
   geom_polygon(aes(fill=`2014-04-06`))+
   geom_path()+ 

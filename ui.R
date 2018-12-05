@@ -1,14 +1,14 @@
-amazon_data <- read.csv("stock/AMZN.csv", stringsAsFactors = FALSE)
-amazon_data$Date <- as.Date(amazon_data$Date, "%m/%d/%Y")
-bitcoin_data <- read.csv("stock/BTC-USD.csv", stringsAsFactors = FALSE)
-bitcoin_data$Date <- as.Date(bitcoin_data$Date, "%m/%d/%Y")
-facebook_data <- read.csv("stock/FB.csv", stringsAsFactors = FALSE)
-facebook_data$Date <- as.Date(facebook_data$Date, "%m/%d/%Y")
-twitter_data <- read.csv("stock/TWTR.csv", stringsAsFactors = FALSE)
-twitter_data$Date <- as.Date(twitter_data$Date, "%m/%d/%Y")
-tesla_data <- read.csv("stock/TSLA.csv", stringsAsFactors = FALSE)
-tesla_data$Date <- as.Date(tesla_data$Date, "%m/%d/%Y")
-
+library(shinydashboard)
+library(shiny)
+library(ggplot2)
+library(dplyr)
+library(mapproj)
+library(maps)
+library(R.utils)
+library(lubridate)
+library(scales)
+library(plotly)
+library(rsconnect)
 
 shinyUI(dashboardPage(
   skin = "black",
@@ -40,8 +40,8 @@ shinyUI(dashboardPage(
           Moreover, we want to educate everyone about the danger of investing base on popular topic(because it is hard to avoid bubble).")),
         h3(em("QUESTIONS")),
         tags$ul(
-          tags$li(HTML("Is <mark>Media Exposure</mark> connected to stock price?")), 
-          tags$li("What is the connection between them? Should you invest in hot-topic?"), 
+          tags$li(HTML("Is <mark>Media Exposure</mark> connected to stock price?")),
+          tags$li("What is the connection between them? Should you invest in hot-topic?"),
           tags$li("What are some specific examples to illustrate this concept (irrational market)?"),
           tags$li("What is a good strategy of avoiding financial crisis in investment?")),
         h3("FURTHER ANALYSIS"),
@@ -80,19 +80,44 @@ shinyUI(dashboardPage(
         fluidRow(
           box(
             status = "warning",
-            h3("Stock of Companies and Popularity Hit on Google"),
             plotOutput("plot1", height = 500, width = 1000)
           )
         ),
         fluidRow(p(HTML(" We pull out stock data from Yahoo Finance to create a weekly stock chart. In this stock chart, the left
-                     axis is about Closed price on weekly base. The right axis is about percentile base on google trend(100% is the 
-                     maximum of hits). We purposely make the scale two times than it is because this way creates a better visual 
-                     appearance for the users to compare the graph. Changing the time input can really help audience to see the 
+                     axis is about Closed price on weekly base. The right axis is about percentile base on google trend(100% is the
+                     maximum of hits). We purposely make the scale two times than it is because this way creates a better visual
+                     appearance for the users to compare the graph. Changing the time input can really help audience to see the
                      connection between <mark>Media Exposure</mark> and stock price in short time period. "))
         )
       ),
       # Third tab content
-      tabItem(tabName = "two"),
+      tabItem(
+        tabName = "two",
+        fluidPage(
+          titlePanel("Heatmap of search popularity"),
+
+          # Sidebar with a slider input for number of bins
+          sidebarLayout(
+            sidebarPanel(
+              sliderInput("date",
+                          "Dates:",
+                          min = as.Date("2013-12-01","%Y-%m-%d"),
+                          max = as.Date("2018-11-18","%Y-%m-%d"),
+                          value = as.Date("2013-12-01"),
+                          step = 7,
+                          animate = TRUE,
+                          timeFormat = "%Y-%m-%d"),
+
+              selectInput("company",
+                          "Subject Name",
+                          choices = list("Amazon", "Bitcoin", "Facebook", "Twitter", "Tesla"))
+            ),
+            mainPanel(
+              plotOutput("plot4")
+            )
+          )
+        )
+      ),
       # Fourth tab content
       tabItem(
         tabName = "three",
