@@ -158,7 +158,7 @@ shinyServer(function(input, output) {
     a <- ggplot(map.df, aes(x=long,y=lat,group = group)) +
       geom_polygon(aes(fill = map.matrix[, which(as.character(input$date) == colnames(map.df))])) + 
       geom_path() + 
-      scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90", limits=c(0,10000))+
+      scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90", limits=c(0,100))+
       coord_map() +
       guides(fill = guide_legend((title = paste("Search popularity on", input$Subject))))+
       ggtitle(paste("US Heatmap of Search Popularity for", input$company)) + 
