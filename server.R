@@ -1,5 +1,3 @@
-
-
 amazon_data <- read.csv("stock/AMZN.csv", stringsAsFactors = FALSE)
 amazon_data$Date <- as.Date(amazon_data$Date, "%m/%d/%Y")
 bitcoin_data <- read.csv("stock/BTC-USD.csv", stringsAsFactors = FALSE)
@@ -110,29 +108,30 @@ shinyServer(function(input, output) {
   
   chosenData <- reactive({
     if(input$company == "Amazon"){
-      map.df <- amazon_data_map
+      map.df <- amazon_data_map %>% select(-c(region, subregion))
     } else if(input$company == "Bitcoin") {
-      map.df <- bitcoin_data_map
+      map.df <- bitcoin_data_map %>% select(-c(region, subregion))
     } else if(input$company == "Facebook") {
-      map.df <- facebook_data_map
+      map.df <- facebook_data_map %>% select(-c(region, subregion))
     } else if(input$company == "Twitter") {
-      map.df <- twitter_data_map
+      map.df <- twitter_data_map %>% select(-c(region, subregion))
     } else {
-      map.df <- tesla_data_map
+      map.df <- tesla_data_map %>% select(-c(region, subregion))
     }
     return(map.df)
   })
   
   output$plot4 <- renderPlot({
-    map.df <- chosenData() %>% select(-c(region, subregion))
+    map.df <- chosenData() 
     map.matrix <- data.matrix(map.df)
     a <- ggplot(map.df, aes(x=long,y=lat,group = group)) +
       geom_polygon(aes(fill = map.matrix[, which(as.character(input$date) == colnames(map.df))])) + 
       geom_path() + 
       scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90", limits=c(0,10000))+
       coord_map() +
-      guides(fill = guide_legend((title = paste("Search popularity on", input$Subject))))
+      guides(fill = guide_legend((title = paste("Search popularity on", input$Subject))))+
+      ggtitle(paste("US Heatmap of search popularity for", input$company)) + 
+      theme(plot.title = element_text(size = 25, face = "bold"))
     return(a)
   })
-  
 })

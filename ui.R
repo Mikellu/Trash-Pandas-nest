@@ -96,7 +96,6 @@ shinyUI(dashboardPage(
                           choices = list("Amazon", "Bitcoin", "Facebook", "Twitter", "Tesla"))
             ),
             mainPanel(
-              h3(paste("Heatmap of search popularity of selected company")),
               plotOutput("plot4")
             )
           )
