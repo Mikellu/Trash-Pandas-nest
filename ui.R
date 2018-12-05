@@ -68,7 +68,6 @@ shinyUI(dashboardPage(
           ),
           box(
             status = "warning",
-            h3("Stock of Companies and Popularity Hit on Google"),
             plotOutput("plot1")
           )
         )

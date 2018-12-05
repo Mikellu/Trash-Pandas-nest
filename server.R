@@ -37,7 +37,8 @@ shinyServer(function(input, output) {
         scale_y_continuous(sec.axis = sec_axis(~. * 0.25, name = "number of hit [%]")) -> base
       base <- base + scale_color_manual(values = c("blue", "red"))
       base <- base + labs(y = "Close price [$ dollar]", x = "Date", color = "Parameter")
-      base <- base + theme(legend.position = c(0.75, 1)) + geom_hline(yintercept = mean(base_data$Hit) / 100 * max(base_data$Close), 
+      base <- base + ggtitle(paste(input$Subject, "and Popularity Hit on Google")) 
+      base <- base + theme(legend.position = c(0.75, 1), plot.title = element_text(size = 25, face = "bold")) + geom_hline(yintercept = mean(base_data$Hit) / 100 * max(base_data$Close), 
                                                                       linetype="dashed", color = "orange")
     } else if(input$Subject == "Amazon"){
       base <- ggplot(base_data, aes(Date, Close, color = "Close price")) + geom_line()
@@ -45,7 +46,8 @@ shinyServer(function(input, output) {
         scale_y_continuous(sec.axis = sec_axis(~. / 10, name = "number of hit [%]")) -> base
       base <- base + scale_color_manual(values = c("blue", "red"))
       base <- base + labs(y = "Close price [$ dollar]", x = "Date", color = "Parameter")
-      base <- base + theme(legend.position = c(0.75, 1)) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
+      base <- base + ggtitle(paste(input$Subject, "and Popularity Hit on Google")) 
+      base <- base + theme(legend.position = c(0.75, 1), plot.title = element_text(size = 25, face = "bold")) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
                                                                         linetype="dashed", color = "orange")
     } else if(input$Subject == "Bitcoin"){
       base <- ggplot(base_data, aes(Date, Close, color = "Close price")) + geom_line()
@@ -53,7 +55,8 @@ shinyServer(function(input, output) {
         scale_y_continuous(sec.axis = sec_axis(~. / 100, name = "number of hit [%]")) -> base
       base <- base + scale_color_manual(values = c("blue", "red"))
       base <- base + labs(y = "Close price [$ dollar]", x = "Date", color = "Parameter")
-      base <- base + theme(legend.position = c(0.75, 1)) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
+      base <- base + ggtitle(paste(input$Subject, "and Popularity Hit on Google")) 
+      base <- base + theme(legend.position = c(0.75, 1), plot.title = element_text(size = 25, face = "bold")) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
                                                                       linetype="dashed", color = "orange")
     } else {
       base <- ggplot(base_data, aes(Date, Close, color = "Close price")) + geom_line()
@@ -61,7 +64,8 @@ shinyServer(function(input, output) {
         scale_y_continuous(sec.axis = sec_axis(~., name = "number of hit [%]")) -> base
       base <- base + scale_color_manual(values = c("blue", "red"))
       base <- base + labs(y = "Close price [$ dollar]", x = "Date", color = "Parameter")
-      base <- base + theme(legend.position = c(0.75, 1)) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
+      base <- base + ggtitle(paste(input$Subject, "and Popularity Hit on Google")) 
+      base <- base + theme(legend.position = c(0.75, 1), plot.title = element_text(size = 25, face = "bold")) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
                                                                       linetype="dashed", color = "orange")
     }
     return(base)
