@@ -74,12 +74,12 @@ shinyServer(function(input, output) {
   
   render_3d_standard <- function(data, p_title, color) {
     p <- plot_ly(data, x = ~Hit, y = ~News, z = ~Close,
-                 marker = list(size = 7, color = ~X, colorscale = color, showscale = TRUE)) %>%
+                 marker = list(size = 5, color = ~X, colorscale = color, showscale = TRUE, colorbar = list(len = 0.5))) %>%
       add_markers() %>%
-      layout(title = p_title,
-        scene = list(xaxis = list(title = 'Search Hit (%)'),
-                          yaxis = list(title = 'News Mention'),
-                          zaxis = list(title = 'Stock Price')),
+      layout(title = p_title, margin = 0, 
+        scene = list(xaxis = list(title = '\t\t\tSearch Hit (%)', titlefont = list(size = 13), tickfont = list(size = 10)),
+                          yaxis = list(title = 'News Mention', titlefont = list(size = 13), tickfont = list(size = 10)),
+                          zaxis = list(title = 'Stock Price', titlefont = list(size = 13), tickfont = list(size = 10))),
              annotations = list(
                x = 1.20,
                y = 1.07,
@@ -102,23 +102,23 @@ shinyServer(function(input, output) {
   # heatmap plotting
 
   #week_data <- data.table::fread("heatmap_data/processed_data/trend_week.csv", stringsAsFactors = FALSE)
-  amazon_data <- data.table::fread("heatmap_data/processed_data/amazon.csv", stringsAsFactors = FALSE)
-  bitcoin_data <- data.table::fread("heatmap_data/processed_data/bitcoin.csv", stringsAsFactors = FALSE)
-  facebook_data <- data.table::fread("heatmap_data/processed_data/facebook.csv", stringsAsFactors = FALSE)
-  twitter_data <- data.table::fread("heatmap_data/processed_data/twitter.csv", stringsAsFactors = FALSE)
-  tesla_data <- data.table::fread("heatmap_data/processed_data/tesla.csv", stringsAsFactors = FALSE)
+  amazon_data_map <- data.table::fread("heatmap_data/processed_data/amazon.csv", stringsAsFactors = FALSE)
+  bitcoin_data_map <- data.table::fread("heatmap_data/processed_data/bitcoin.csv", stringsAsFactors = FALSE)
+  facebook_data_map <- data.table::fread("heatmap_data/processed_data/facebook.csv", stringsAsFactors = FALSE)
+  twitter_data_map <- data.table::fread("heatmap_data/processed_data/twitter.csv", stringsAsFactors = FALSE)
+  tesla_data_map <- data.table::fread("heatmap_data/processed_data/tesla.csv", stringsAsFactors = FALSE)
   
   selectedData2 <- reactive({
     if(input$company == "Amazon"){
-      map.df <- amazon_data
+      map.df <- amazon_data_map
     } else if(input$company == "Bitcoin") {
-      map.df <- bitcoin_data
+      map.df <- bitcoin_data_map
     } else if(input$company == "Facebook") {
-      map.df <- facebook_data
+      map.df <- facebook_data_map
     } else if(input$company == "Twitter") {
-      map.df <- twitter_data
+      map.df <- twitter_data_map
     } else {
-      map.df <- tesla_data
+      map.df <- tesla_data_map
     }
     return(map.df)
   })
