@@ -56,9 +56,10 @@ shinyUI(dashboardPage(
           We also have our search hits data from Google Trends provided by Google."),
         p("Please click on the card to navigate to the website if you are interested."),
         fluidRow(
-          valueBox("Google Trends", "Search Hit API", icon = icon("google"), color = "aqua", href = "https://trends.google.com/trends/\" target=\"_blank"),
-          valueBox("The Guardian", "News API", icon = icon("newspaper"), color = "light-blue", href = "https://open-platform.theguardian.com/\" target=\"_blank"),
-          valueBox("The NY Times", "News API", icon = icon("newspaper"), color = "blue", href = "https://developer.nytimes.com/\" target=\"_blank")
+          valueBox("Yahoo Finance", "Stock Dataset", icon = icon("yahoo"), color = "teal", href = "https://trends.google.com/trends/\" target=\"_blank", width = 3),
+          valueBox("Google Trends", "Search Hit API", icon = icon("google"), color = "aqua", href = "https://trends.google.com/trends/\" target=\"_blank", width = 3),
+          valueBox("The Guardian", "News API", icon = icon("newspaper"), color = "light-blue", href = "https://open-platform.theguardian.com/\" target=\"_blank", width = 3),
+          valueBox("The NY Times", "News API", icon = icon("newspaper"), color = "blue", href = "https://developer.nytimes.com/\" target=\"_blank", width = 3)
         )
       ),
       # Second tab content
@@ -127,11 +128,12 @@ shinyUI(dashboardPage(
       tabItem(
         tabName = "three",
         h2("Trend of News Mention with Stock Price and Search Hit"),
-        fluidRow(box(status = "warning", plotlyOutput("plot2")), box(status = "warning", plotlyOutput("plot3"))),
-        fluidRow(p("We pull out Facebook and Twitter to create a 3D plot with stock price, news mention and search hit as the three axes.
+        fluidRow(box(status = "warning", width = 10, plotlyOutput("plot2", height = 800, width = 800))),
+        fluidRow(box(status = "warning", plotlyOutput("plot3", height = 800))),
+        fluidRow(p(HTML("We pull out Facebook and Twitter to create a 3D plot with stock price, news mention and search hit as the three axes.
           We choose these two companies as they are commonly-mentioned Internet companies in the news.
           From the plots we can see the dots usually go in clusters for each companies in recent dates, which means their popularity as well as financial performance are usually stable throughout the time.
-          At the same time, we can observe the trend which when there are more mentions in the news, the lower the stock prices are for the companies."))
+          At the same time, we can observe the trend which when there are more mentions in the news, the lower the stock prices are for the companies.")))
       )
     )
   )

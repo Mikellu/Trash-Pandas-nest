@@ -83,12 +83,12 @@ shinyServer(function(input, output) {
   
   render_3d_standard <- function(data, p_title, color) {
     p <- plot_ly(data, x = ~Hit, y = ~News, z = ~Close,
-                 marker = list(size = 7, color = ~X, colorscale = color, showscale = TRUE)) %>%
+                 marker = list(size = 5, color = ~X, colorscale = color, showscale = TRUE, colorbar = list(len = 0.5))) %>%
       add_markers() %>%
-      layout(title = p_title,
-        scene = list(xaxis = list(title = 'Search Hit (%)'),
-                          yaxis = list(title = 'News Mention'),
-                          zaxis = list(title = 'Stock Price')),
+      layout(title = p_title, margin = 0, 
+        scene = list(xaxis = list(title = '\t\t\tSearch Hit (%)', titlefont = list(size = 13), tickfont = list(size = 10)),
+                          yaxis = list(title = 'News Mention', titlefont = list(size = 13), tickfont = list(size = 10)),
+                          zaxis = list(title = 'Stock Price', titlefont = list(size = 13), tickfont = list(size = 10))),
              annotations = list(
                x = 1.20,
                y = 1.07,
@@ -109,6 +109,7 @@ shinyServer(function(input, output) {
   })
   
   # heatmap plotting
+
   amazon_map_data <- read.csv("heatmap_data/processed_data/amazon.csv", stringsAsFactors = FALSE)
   fb_map_data <- read.csv("heatmap_data/processed_data/facebook.csv", stringsAsFactors = FALSE)
   
