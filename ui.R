@@ -10,17 +10,6 @@ library(scales)
 library(plotly)
 library(rsconnect)
 
-amazon_data <- read.csv("stock/AMZN.csv", stringsAsFactors = FALSE)
-amazon_data$Date <- as.Date(amazon_data$Date, "%m/%d/%Y")
-bitcoin_data <- read.csv("stock/BTC-USD.csv", stringsAsFactors = FALSE)
-bitcoin_data$Date <- as.Date(bitcoin_data$Date, "%m/%d/%Y")
-facebook_data <- read.csv("stock/FB.csv", stringsAsFactors = FALSE)
-facebook_data$Date <- as.Date(facebook_data$Date, "%m/%d/%Y")
-twitter_data <- read.csv("stock/TWTR.csv", stringsAsFactors = FALSE)
-twitter_data$Date <- as.Date(twitter_data$Date, "%m/%d/%Y")
-tesla_data <- read.csv("stock/TSLA.csv", stringsAsFactors = FALSE)
-tesla_data$Date <- as.Date(tesla_data$Date, "%m/%d/%Y")
-
 shinyUI(dashboardPage(
   skin = "black",
   dashboardHeader(title = "Popularity Exposure VS Stock market", titleWidth = 350),
@@ -101,6 +90,7 @@ shinyUI(dashboardPage(
                           step = 7,
                           animate = TRUE,
                           timeFormat = "%Y-%m-%d"),
+              
               selectInput("company", 
                           "Subject Name", 
                           choices = list("Amazon", "Bitcoin", "Facebook", "Twitter", "Tesla"))
