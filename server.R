@@ -44,35 +44,35 @@ shinyServer(function(input, output) {
                   filter(Date > input$dates[1] & Date < input$dates[2])
     if(input$Subject == "Tesla") {
       base <- ggplot(base_data, aes(Date, Close, color = "Close price")) + geom_line()
-      base + geom_line(aes(y = Hit * 4, color = "Hit"))  +
+      base + geom_line(aes(y = Hit * 4, color = "Hit"))  + ggtitle("Stock Price VS. Search of Hit") + 
         scale_y_continuous(sec.axis = sec_axis(~. * 0.25, name = "number of hit [%]")) -> base
       base <- base + scale_color_manual(values = c("blue", "red"))
       base <- base + labs(y = "Close price [$ dollar]", x = "Date", color = "Parameter")
-      base <- base + theme(legend.position = c(0.75, 1)) + geom_hline(yintercept = mean(base_data$Hit) / 100 * max(base_data$Close), 
+      base <- base + theme(legend.position = c(0.75, 1.03)) + geom_hline(yintercept = mean(base_data$Hit) / 100 * max(base_data$Close), 
                                                                       linetype="dashed", color = "orange")
     } else if(input$Subject == "Amazon"){
       base <- ggplot(base_data, aes(Date, Close, color = "Close price")) + geom_line()
-      base + geom_line(aes(y = Hit * 10, color = "Hit"))  +
+      base + geom_line(aes(y = Hit * 10, color = "Hit")) + ggtitle("Stock Price VS. Search of Hit") +
         scale_y_continuous(sec.axis = sec_axis(~. / 10, name = "number of hit [%]")) -> base
       base <- base + scale_color_manual(values = c("blue", "red"))
       base <- base + labs(y = "Close price [$ dollar]", x = "Date", color = "Parameter")
-      base <- base + theme(legend.position = c(0.75, 1)) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
+      base <- base + theme(legend.position = c(0.75, 1.03)) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
                                                                         linetype="dashed", color = "orange")
     } else if(input$Subject == "Bitcoin"){
       base <- ggplot(base_data, aes(Date, Close, color = "Close price")) + geom_line()
-      base + geom_line(aes(y = Hit * 100, color = "Hit"))  +
+      base + geom_line(aes(y = Hit * 100, color = "Hit")) + ggtitle("Stock Price VS. Search of Hit") +
         scale_y_continuous(sec.axis = sec_axis(~. / 100, name = "number of hit [%]")) -> base
       base <- base + scale_color_manual(values = c("blue", "red"))
       base <- base + labs(y = "Close price [$ dollar]", x = "Date", color = "Parameter")
-      base <- base + theme(legend.position = c(0.75, 1)) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
+      base <- base + theme(legend.position = c(0.75, 1.03)) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
                                                                       linetype="dashed", color = "orange")
     } else {
       base <- ggplot(base_data, aes(Date, Close, color = "Close price")) + geom_line()
-      base + geom_line(aes(y = Hit, color = "Hit"))+
+      base + geom_line(aes(y = Hit, color = "Hit")) + ggtitle("Stock Price VS. Search of Hit") +
         scale_y_continuous(sec.axis = sec_axis(~., name = "number of hit [%]")) -> base
       base <- base + scale_color_manual(values = c("blue", "red"))
       base <- base + labs(y = "Close price [$ dollar]", x = "Date", color = "Parameter")
-      base <- base + theme(legend.position = c(0.75, 1)) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
+      base <- base + theme(legend.position = c(0.75, 1.03)) + geom_hline(yintercept = mean(base_data$Hit) / 200 * max(base_data$Close), 
                                                                       linetype="dashed", color = "orange")
     }
     return(base)
@@ -83,31 +83,52 @@ shinyServer(function(input, output) {
   
   render_3d_standard <- function(data, p_title, color) {
     p <- plot_ly(data, x = ~Hit, y = ~News, z = ~Close,
-                 marker = list(size = 5, color = ~X, colorscale = color, showscale = TRUE, colorbar = list(len = 0.5))) %>%
+                 marker = list(size = 5, color = ~X, colorscale = color, showscale = TRUE, colorbar = list(len = 0.5, title = "Date<br>(from<br>recent<br>to old)"))) %>%
       add_markers() %>%
-      layout(title = p_title, margin = 0, 
-        scene = list(xaxis = list(title = '\t\t\tSearch Hit (%)', titlefont = list(size = 13), tickfont = list(size = 10)),
+      layout(title = p_title, margin = list(pad = 0, l = 20, r = 0, b = 10, t = 30), 
+        scene = list(xaxis = list(title = 'Search Hit (%)', titlefont = list(size = 13), tickfont = list(size = 10)),
                           yaxis = list(title = 'News Mention', titlefont = list(size = 13), tickfont = list(size = 10)),
-                          zaxis = list(title = 'Stock Price', titlefont = list(size = 13), tickfont = list(size = 10))),
-             annotations = list(
-               x = 1.20,
-               y = 1.07,
-               text = 'Date (from<br>recent to old)',
-               xref = 'paper',
-               yref = 'paper',
-               showarrow = FALSE
-             ))
+                          zaxis = list(title = 'Stock Price', titlefont = list(size = 13), tickfont = list(size = 10))))
     return(p)
   }
   
+  
+  fb_3d_subplot <- plot_ly(facebook_3d, x = ~Hit, y = ~News, z = ~Close, scene='scene',
+                                   marker = list(size = 4, color = ~X, colorscale = "Portland", showscale = TRUE, colorbar = list(len = 0.8, title = "Date<br>(from<br>recent<br>to old)"))) %>%
+                   add_markers()
+  twitter_3d_subplot <- plot_ly(twitter_3d, x = ~Hit, y = ~News, z = ~Close, scene='scene2',
+                                marker = list(size = 4, color = ~X, colorscale = "Portland", showscale = TRUE, colorbar = list(len = 0.8, title = "Date<br>(from<br>recent<br>to old)"))) %>%
+                        add_markers()
+  
+  selection_3d <- reactive({input$radio3d})
   output$plot2 <- renderPlotly({
-    render_3d_standard(facebook_3d, "Stock Price vs News Mention<br>vs Search Hit for <b>Facebook</b><br>from 2013 to 2018", 'Portland')
+    if (selection_3d() == 1) {
+      render_3d_standard(facebook_3d, "Stock Price vs News Mention vs Search Hit for <b>Facebook</b> from 2013 to 2018", 'Portland')
+    } else if (selection_3d() == 2) {
+      render_3d_standard(twitter_3d, "Stock Price vs News Mention vs Search Hit for <b>Twitter</b> from 2013 to 2018", 'Portland')
+    } else {
+      subplot_final <- subplot(fb_3d_subplot, twitter_3d_subplot) %>%
+        layout(
+          title = "Stock Price vs News Mention vs Search Hit from 2013 to 2018",
+          showlegend=F,
+          scene = list(xaxis = list(title = 'Search Hit (%)', titlefont = list(size = 13), tickfont = list(size = 10)),
+                       yaxis = list(title = 'News Mention', titlefont = list(size = 13), tickfont = list(size = 10)),
+                       zaxis = list(title = 'Stock Price', titlefont = list(size = 13), tickfont = list(size = 10)),
+                       aspectmode='auto',
+                       domain=list(x=c(0,1),y=c(0.5,1))),
+          scene2 = list(xaxis = list(title = 'Search Hit (%)', titlefont = list(size = 13), tickfont = list(size = 10)),
+                        yaxis = list(title = 'News Mention', titlefont = list(size = 13), tickfont = list(size = 10)),
+                        zaxis = list(title = 'Stock Price', titlefont = list(size = 13), tickfont = list(size = 10)),
+                        aspectmode='auto',
+                        domain=list(x=c(0,1),y=c(0,0.5))),
+          annotations = list(
+            list(x = 0.5 , y = 1, text = "Facebook", showarrow = F, xref='paper', yref='paper'),
+            list(x = 0.5 , y = 0.48, text = "Twitter", showarrow = F, xref='paper', yref='paper'))
+        )
+      return(subplot_final)
+    }
   })
-  
-  output$plot3 <- renderPlotly({
-    render_3d_standard(twitter_3d, "Stock Price vs News Mention<br>vs Search Hit for <b>Twitter</b><br>from 2013 to 2018", 'Reds')
-  })
-  
+    
   # heatmap plotting
   week_data_map <- data.table::fread("heatmap_data/processed_data/trend_week.csv", stringsAsFactors = FALSE)
   amazon_data_map <- data.table::fread("heatmap_data/processed_data/amazon.csv", stringsAsFactors = FALSE)
@@ -140,8 +161,8 @@ shinyServer(function(input, output) {
       scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90", limits=c(0,10000))+
       coord_map() +
       guides(fill = guide_legend((title = paste("Search popularity on", input$Subject))))+
-      ggtitle(paste("US Heatmap of search popularity for", input$company)) + 
-      theme(plot.title = element_text(size = 25, face = "bold"))
+      ggtitle(paste("US Heatmap of Search Popularity for", input$company)) + 
+      theme(plot.title = element_text(size = 17))
     return(a)
   })
   
