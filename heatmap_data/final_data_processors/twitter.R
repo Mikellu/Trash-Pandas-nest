@@ -41,28 +41,29 @@ for (i in 1:49) {
                         by="date", all.x=T)
   print(i)
 }
-
-states_final <- states_final[, -c(1:2)] * twitter_trend$`Twitter: (United States)`
-states_final$date <- twitter_trend$Week
+states_final <- states_final[, -c(1, 2)]
 states_final <- as.data.frame(t(states_final))
+for (i in 1:260) {
+  states_final[[i]] <- data.matrix(states_final[[i]]) * twitter_state$`Twitter: (12/1/13 - 12/1/18)`
+  print(i)
+}
+for (i in 1:49) {
+  states_final[i, ] <- data.matrix(states_final[i, ]) * twitter_trend$`Twitter: (United States)` / 10000
+  print(i)
+}
 for (i in 1:260) {
   colnames(states_final)[i] <- as.character(twitter_trend[, "Week"][i])
   print(i)
 }
 setDT(states_final, keep.rownames = TRUE)[]
 states_final <- rename(states_final, region = rn)
-states_final <- states_final[-c(50), ]
-
 states <- map_data("state")
 map.df <- merge(states,states_final, by="region", all.x=T)
 map.df <- map.df[order(map.df$order),]
-for (i in 7:266) {
-  map.df[, i]=as.numeric(levels(map.df[, i]))[map.df[, i]]
-}
 write.csv(map.df, file = paste("processed data/twitter.csv"), row.names = FALSE)
 a <- ggplot(map.df, aes(x=long,y=lat,group= map.df$group))+
   geom_polygon(aes(fill=`2014-04-06`))+
   geom_path()+ 
-  scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90", limits=c(0,10000))+
+  scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90", limits=c(0,100))+
   coord_map()
 print(a)

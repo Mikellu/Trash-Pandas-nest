@@ -108,7 +108,7 @@ shinyUI(dashboardPage(
                                  min = as.Date("2013-12-01","%Y-%m-%d"),
                                  max = as.Date("2018-11-18","%Y-%m-%d"),
                                  value = as.Date("2013-12-01"),
-                                 step = 28,
+                                 step = 21,
                                  animate = TRUE,
                                  timeFormat = "%Y-%m-%d"),
                      selectInput("company",

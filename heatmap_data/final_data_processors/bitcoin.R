@@ -46,13 +46,16 @@ states_final[107, 18] <- 0
 states_final[[18]] <- as.numeric(states_final[[18]])
 states_final[[45]][95] <- 0
 states_final[[45]] <- as.numeric(states_final[[45]])
-for (i in 3:51) {
-  states_final[[i]] <- states_final[[i]] * bitcoin_trend$`Bitcoin: (United States)`
+states_final <- states_final[, -c(1, 2)]
+states_final <- as.data.frame(t(states_final))
+for (i in 1:260) {
+  states_final[[i]] <- data.matrix(states_final[[i]]) * bitcoin_state$`Bitcoin: (12/1/13 - 12/1/18)`
   print(i)
 }
-
-states_final <- as.data.frame(t(states_final))
-states_final <- states_final[-c(1, 2), ]
+for (i in 1:49) {
+  states_final[i, ] <- data.matrix(states_final[i, ]) * bitcoin_trend$`Bitcoin: (United States)` / 10000
+  print(i)
+}
 for (i in 1:260) {
   colnames(states_final)[i] <- as.character(bitcoin_trend[, "Week"][i])
   print(i)
@@ -60,16 +63,12 @@ for (i in 1:260) {
 setDT(states_final, keep.rownames = TRUE)[]
 states_final <- rename(states_final, region = rn)
 states <- map_data("state")
-map.df <- merge(states,states_final, by="region", all.x=T)
+map.df <- merge(states, as.data.frame(states_final), by = "region", all.x=T)
 map.df <- map.df[order(map.df$order),]
-for (i in 7:266) {
-  map.df[, i]=as.numeric(levels(map.df[, i]))[map.df[, i]]
-}
 write.csv(map.df, file = paste("processed data/bitcoin.csv"), row.names = FALSE)
-
 a <- ggplot(map.df, aes(x=long,y=lat,group= map.df$group))+
-  geom_polygon(aes(fill=`2017-12-10`))+
+  geom_polygon(aes(fill=`2017-12-17`))+
   geom_path()+ 
-  scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90", limits=c(0,10000))+
+  scale_fill_gradientn(colours=rev(heat.colors(5)),na.value="grey90", limits=c(0,100))+
   coord_map()
 print(a)

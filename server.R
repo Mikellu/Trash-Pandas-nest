@@ -8,6 +8,7 @@ library(lubridate)
 library(scales)
 library(plotly)
 library(shinydashboard)
+library(gapminder)
 
 amazon_data <- read.csv("stock/AMZN.csv", stringsAsFactors = FALSE)
 amazon_data$Date <- as.Date(amazon_data$Date, "%m/%d/%Y")
