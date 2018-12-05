@@ -166,4 +166,12 @@ shinyServer(function(input, output) {
     return(a)
   })
   
+  output$meme <- renderImage({
+    return(list(
+      src = "meme.jpg",
+      filetype = "image/jpeg",
+      alt = "Welcome to Trash Panda's Nest!"
+    ))
+  }, deleteFile = FALSE)
+  
 })
