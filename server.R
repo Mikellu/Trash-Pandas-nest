@@ -72,35 +72,35 @@ shinyServer(function(input, output) {
   facebook_3d <- read.csv("3dplot-data/facebook-final.csv")
   twitter_3d <- read.csv("3dplot-data/twitter-final.csv")
   
-  render_3d_standard <- function(data, p_title) {
+  render_3d_standard <- function(data, p_title, color) {
     p <- plot_ly(data, x = ~Hit, y = ~News, z = ~Close,
-                 marker = list(size = 7, color = ~News, colorscale = c('#FFE1A1', '#683531'), showscale = TRUE)) %>%
+                 marker = list(size = 7, color = ~X, colorscale = color, showscale = TRUE)) %>%
       add_markers() %>%
       layout(title = p_title,
-             height = 500,
         scene = list(xaxis = list(title = 'Search Hit (%)'),
                           yaxis = list(title = 'News Mention'),
                           zaxis = list(title = 'Stock Price')),
              annotations = list(
-               x = 1.13,
-               y = 1.05,
-               text = 'Weekly News Mention',
+               x = 1.20,
+               y = 1.07,
+               text = 'Date (from<br>recent to old)',
                xref = 'paper',
                yref = 'paper',
-               showarrow = TRUE
+               showarrow = FALSE
              ))
     return(p)
   }
   
   output$plot2 <- renderPlotly({
-    render_3d_standard(facebook_3d, "Stock Price vs News Mention<br>vs Search Hit for Facebook<br> from 2013 to 2018")
+    render_3d_standard(facebook_3d, "Stock Price vs News Mention<br>vs Search Hit for <b>Facebook</b><br>from 2013 to 2018", 'Portland')
   })
   
   output$plot3 <- renderPlotly({
-    render_3d_standard(twitter_3d, "Stock Price vs News Mention<br>vs Search Hit for Twitter<br> from 2013 to 2018")
+    render_3d_standard(twitter_3d, "Stock Price vs News Mention<br>vs Search Hit for <b>Twitter</b><br>from 2013 to 2018", 'Reds')
   })
   
   # heatmap plotting
+
   #week_data <- data.table::fread("heatmap_data/processed_data/trend_week.csv", stringsAsFactors = FALSE)
   amazon_data <- data.table::fread("heatmap_data/processed_data/amazon.csv", stringsAsFactors = FALSE)
   bitcoin_data <- data.table::fread("heatmap_data/processed_data/bitcoin.csv", stringsAsFactors = FALSE)

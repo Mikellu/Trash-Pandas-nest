@@ -7,6 +7,7 @@ library(R.utils)
 library(lubridate)
 library(scales)
 library(plotly)
+library(shinydashboard)
 
 week_data <- data.table::fread("processed data/trend_week.csv", stringsAsFactors = FALSE)
 amazon_data <- data.table::fread("processed data/amazon.csv", stringsAsFactors = FALSE)
