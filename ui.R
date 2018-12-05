@@ -10,17 +10,6 @@ library(scales)
 library(plotly)
 library(rsconnect)
 
-amazon_data <- read.csv("stock/AMZN.csv", stringsAsFactors = FALSE)
-amazon_data$Date <- as.Date(amazon_data$Date, "%m/%d/%Y")
-bitcoin_data <- read.csv("stock/BTC-USD.csv", stringsAsFactors = FALSE)
-bitcoin_data$Date <- as.Date(bitcoin_data$Date, "%m/%d/%Y")
-facebook_data <- read.csv("stock/FB.csv", stringsAsFactors = FALSE)
-facebook_data$Date <- as.Date(facebook_data$Date, "%m/%d/%Y")
-twitter_data <- read.csv("stock/TWTR.csv", stringsAsFactors = FALSE)
-twitter_data$Date <- as.Date(twitter_data$Date, "%m/%d/%Y")
-tesla_data <- read.csv("stock/TSLA.csv", stringsAsFactors = FALSE)
-tesla_data$Date <- as.Date(tesla_data$Date, "%m/%d/%Y")
-
 shinyUI(dashboardPage(
   skin = "black",
   dashboardHeader(title = "Popularity Exposure VS Stock market", titleWidth = 350),
@@ -43,14 +32,24 @@ shinyUI(dashboardPage(
       # First tab content
       tabItem(
         tabName = "home",
-        h2("PROJECT OVERVIEW"),
+        h2(strong("PROJECT OVERVIEW")),
         p("The project provides an overview of popular companies in stock market, the exposure of them in news and their searching popularity on the Internet.
           We hope this project could lower the learning barrier of stocks, provide people with helpful financial insights, and encourage people to learn more about how to invest in stocks in a scientific way."),
         h3("OUR AUDIENCE"),
-        p("While the project should be helpful to anyone, we have a specific target audiences of people who are interested in financial investment and stock, especially the ones who want to know more about the theories related to medias behind it."),
-        h3("QUESTIONS"),
+        p(HTML("While the project should be helpful to anyone, we have a specific target audiences of people who are interested in financial investment and stock, especially the ones who want to know more about the theories related to <mark>Media Exposure</mark> behind it.
+          Moreover, we want to educate everyone about the danger of investing base on popular topic(because it is hard to avoid bubble).")),
+        h3(em("QUESTIONS")),
+        tags$ul(
+          tags$li(HTML("Is <mark>Media Exposure</mark> connected to stock price?")),
+          tags$li("What is the connection between them? Should you invest in hot-topic?"),
+          tags$li("What are some specific examples to illustrate this concept (irrational market)?"),
+          tags$li("What is a good strategy of avoiding financial crisis in investment?")),
         h3("FURTHER ANALYSIS"),
-        h3("DATA SOURCE"),
+        tags$ul(
+          tags$li("What if we use the daily data to illustrate predictions of trading day by day?"),
+          tags$li(HTML("Can we predict the peak of bubble base on <mark>Media Exposure</mark>?"))
+        ),
+        h3(em("DATA SOURCE")),
         p("The dataset of stock price, news mention and search hit ranges from Nov 2013 to Nov 2018.
           It covers the popular companies including Amazon, Facebook, Twitter, Tesla and Bitcoin in the form of stocks.
           While we obtaining our stock data from Yahoo Finance, our news mention data is coming from the APIs provided by two of the largest presses in the world - The Guardian from the UK and The NY Times from the US.
@@ -77,12 +76,21 @@ shinyUI(dashboardPage(
               max = as.Date(0, origin = "2018-11-26")
             ),
             selectInput("Subject", h3("Company Name"), choices = list("Amazon", "Bitcoin", "Facebook", "Twitter", "Tesla"))
-          ),
+          )
+        ),
+        fluidRow(
           box(
             status = "warning",
-            h3("Stock of Companies and Popularity Hit on Google"),
-            plotOutput("plot1")
+
+            plotOutput("plot1", height = 500, width = 1000)
+
           )
+        ),
+        fluidRow(p(HTML(" We pull out stock data from Yahoo Finance to create a weekly stock chart. In this stock chart, the left
+                     axis is about Closed price on weekly base. The right axis is about percentile base on google trend(100% is the
+                     maximum of hits). We purposely make the scale two times than it is because this way creates a better visual
+                     appearance for the users to compare the graph. Changing the time input can really help audience to see the
+                     connection between <mark>Media Exposure</mark> and stock price in short time period. "))
         )
       ),
       # Third tab content
@@ -90,8 +98,9 @@ shinyUI(dashboardPage(
         tabName = "two",
         fluidPage(
           titlePanel("Heatmap of search popularity"),
-          
-          # Sidebar with a slider input for number of bins 
+
+          # Sidebar with a slider input for number of bins
+
           sidebarLayout(
             sidebarPanel(
               sliderInput("date",
@@ -102,12 +111,14 @@ shinyUI(dashboardPage(
                           step = 7,
                           animate = TRUE,
                           timeFormat = "%Y-%m-%d"),
-              selectInput("company", 
-                          "Subject Name", 
+
+
+              selectInput("company",
+                          "Subject Name",
+
                           choices = list("Amazon", "Bitcoin", "Facebook", "Twitter", "Tesla"))
             ),
             mainPanel(
-              h3(paste("Heatmap of search popularity of selected company")),
               plotOutput("plot4")
             )
           )

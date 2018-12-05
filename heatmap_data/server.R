@@ -21,21 +21,21 @@ shinyServer(function(input, output) {
   
   selectedData <- reactive({
     if(input$Subject == "Amazon"){
-      selected_data <- amazon_data
+      selected_data <- amazon_data %>% select(-c(region, subregion))
     } else if(input$Subject == "Bitcoin") {
-      selected_data <- bitcoin_data
+      selected_data <- bitcoin_data %>% select(-c(region, subregion))
     } else if(input$Subject == "Facebook") {
-      selected_data <- facebook_data
+      selected_data <- facebook_data %>% select(-c(region, subregion))
     } else if(input$Subject == "Twitter") {
-      selected_data <- twitter_data
+      selected_data <- twitter_data %>% select(-c(region, subregion))
     } else {
-      selected_data <- tesla_data
+      selected_data <- tesla_data %>% select(-c(region, subregion))
     }
     return(selected_data)
   })
   
   output$plot1 <- renderPlot({
-    map.df <- selectedData() %>% select(-c(region, subregion))
+    map.df <- selectedData()
     map.matrix <- data.matrix(map.df)
     a <- ggplot(map.df, aes(x=long,y=lat,group = group)) +
       geom_polygon(aes(fill = map.matrix[, which(as.character(input$date) == colnames(map.df))])) + 
