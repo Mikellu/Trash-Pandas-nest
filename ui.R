@@ -80,7 +80,9 @@ shinyUI(dashboardPage(
         fluidRow(
           box(
             status = "warning",
+
             plotOutput("plot1", height = 500, width = 1000)
+
           )
         ),
         fluidRow(p(HTML(" We pull out stock data from Yahoo Finance to create a weekly stock chart. In this stock chart, the left
@@ -97,6 +99,7 @@ shinyUI(dashboardPage(
           titlePanel("Heatmap of search popularity"),
 
           # Sidebar with a slider input for number of bins
+
           sidebarLayout(
             sidebarPanel(
               sliderInput("date",
@@ -108,8 +111,10 @@ shinyUI(dashboardPage(
                           animate = TRUE,
                           timeFormat = "%Y-%m-%d"),
 
+
               selectInput("company",
                           "Subject Name",
+
                           choices = list("Amazon", "Bitcoin", "Facebook", "Twitter", "Tesla"))
             ),
             mainPanel(
