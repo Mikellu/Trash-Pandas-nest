@@ -24,7 +24,7 @@ shinyUI(fluidPage(
                   choices = list("Amazon", "Bitcoin", "Facebook", "Twitter", "Tesla"))
     ),
     mainPanel(
-      h3("Heatmap of search popularity of selected company"),
+      h3(paste("Heatmap of search popularity of selected company")),
       plotOutput("plot1")
     )
   )

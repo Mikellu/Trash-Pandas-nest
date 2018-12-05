@@ -9,7 +9,6 @@ twitter_data$Date <- as.Date(twitter_data$Date, "%m/%d/%Y")
 tesla_data <- read.csv("stock/TSLA.csv", stringsAsFactors = FALSE)
 tesla_data$Date <- as.Date(tesla_data$Date, "%m/%d/%Y")
 
-
 shinyUI(dashboardPage(
   skin = "black",
   dashboardHeader(title = "Popularity Exposure VS Stock market", titleWidth = 350),
@@ -67,7 +66,33 @@ shinyUI(dashboardPage(
         )
       ),
       # Third tab content
-      tabItem(tabName = "two"),
+      tabItem(
+        tabName = "two",
+        fluidPage(
+          titlePanel("Heatmap of search popularity"),
+          
+          # Sidebar with a slider input for number of bins 
+          sidebarLayout(
+            sidebarPanel(
+              sliderInput("date",
+                          "Dates:",
+                          min = as.Date("2013-12-01","%Y-%m-%d"),
+                          max = as.Date("2018-11-18","%Y-%m-%d"),
+                          value = as.Date("2013-12-01"),
+                          step = 7,
+                          animate = TRUE,
+                          timeFormat = "%Y-%m-%d"),
+              selectInput("company", 
+                          "Subject Name", 
+                          choices = list("Amazon", "Bitcoin", "Facebook", "Twitter", "Tesla"))
+            ),
+            mainPanel(
+              h3(paste("Heatmap of search popularity of selected company")),
+              plotOutput("plot4")
+            )
+          )
+        )
+      ),
       # Fourth tab content
       tabItem(
         tabName = "three",
