@@ -8,9 +8,28 @@ body {
   font-size: 45px;
 }
 
-#shiny-tab-three h2 {
+#shiny-tab-three h2, #shiny-tab-two h2, #shiny-tab-one h2 {
   font-weight: 800;
   font-size: 35px;
+}
+
+#shiny-tab-one .row p, #shiny-tab-two .row p {
+  padding: 25px 5px !important;
+}
+
+#shiny-tab-two .shiny-input-container {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#shiny-tab-three .shiny-input-container {
+  margin-left: 10px;
+}
+
+mark {
+  background: none;
+  font-weight: 800 !important;
+  color: #00C0EF !important;
 }
 
 #shiny-tab-home h3 {
