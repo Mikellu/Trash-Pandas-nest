@@ -86,7 +86,6 @@ shinyServer(function(input, output) {
                  marker = list(size = 7, color = ~X, colorscale = color, showscale = TRUE)) %>%
       add_markers() %>%
       layout(title = p_title,
-             height = 500,
         scene = list(xaxis = list(title = 'Search Hit (%)'),
                           yaxis = list(title = 'News Mention'),
                           zaxis = list(title = 'Stock Price')),
