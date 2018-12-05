@@ -115,7 +115,8 @@ shinyUI(dashboardPage(
                                  "Subject Name",
                                  choices = list("Amazon", "Bitcoin", "Facebook", "Twitter", "Tesla"))
                      ),
-                 p("text explaining the graphhhhhhhh text explaining the graphhhhhhhh text explaining the graphhhhhhhh text explaining the graphhhhhhhh text explaining the graphhhhhhhh text explaining the graphhhhhhhh text explaining the graphhhhhhhh")
+                 p("We pull out google trend data on specific topics to present the heat map of the United States showing public interest in different companies over time:
+                   Amazon, Bitcoin, Facebook, Twitter, and Tesla. Not only we can observe US's interest in a company, but we can also to see different states' interest in a company. For instance, Bitcoin experienced the highest search hit on Google on 2017-12-10, when Bitcoin had the highest stock price ever. East and west coast, for example, Washington state and California state, had relatively higher interests in Bitcoin than the Central United States did.")
         ),
         fluidRow(box(status = "warning", width = 12, plotOutput("plot4")))
       ),
