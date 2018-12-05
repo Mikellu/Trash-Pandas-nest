@@ -109,9 +109,40 @@ shinyServer(function(input, output) {
   })
   
   # heatmap plotting
-
-  amazon_map_data <- read.csv("heatmap_data/processed_data/amazon.csv", stringsAsFactors = FALSE)
-  fb_map_data <- read.csv("heatmap_data/processed_data/facebook.csv", stringsAsFactors = FALSE)
+  week_data_map <- data.table::fread("heatmap_data/processed_data/trend_week.csv", stringsAsFactors = FALSE)
+  amazon_data_map <- data.table::fread("heatmap_data/processed_data/amazon.csv", stringsAsFactors = FALSE)
+  bitcoin_data_map <- data.table::fread("heatmap_data/processed_data/bitcoin.csv", stringsAsFactors = FALSE)
+  facebook_data_map <- data.table::fread("heatmap_data/processed_data/facebook.csv", stringsAsFactors = FALSE)
+  twitter_data_map <- data.table::fread("heatmap_data/processed_data/twitter.csv", stringsAsFactors = FALSE)
+  tesla_data_map <- data.table::fread("heatmap_data/processed_data/tesla.csv", stringsAsFactors = FALSE)
   
+  chosenData <- reactive({
+    if(input$company == "Amazon"){
+      map.df <- amazon_data_map %>% select(-c(region, subregion))
+    } else if(input$company == "Bitcoin") {
+      map.df <- bitcoin_data_map %>% select(-c(region, subregion))
+    } else if(input$company == "Facebook") {
+      map.df <- facebook_data_map %>% select(-c(region, subregion))
+    } else if(input$company == "Twitter") {
+      map.df <- twitter_data_map %>% select(-c(region, subregion))
+    } else {
+      map.df <- tesla_data_map %>% select(-c(region, subregion))
+    }
+    return(map.df)
+  })
+  
+  output$plot4 <- renderPlot({
+    map.df <- chosenData() 
+    map.matrix <- data.matrix(map.df)
+    a <- ggplot(map.df, aes(x=long,y=lat,group = group)) +
+      geom_polygon(aes(fill = map.matrix[, which(as.character(input$date) == colnames(map.df))])) + 
+      geom_path() + 
+      scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90", limits=c(0,10000))+
+      coord_map() +
+      guides(fill = guide_legend((title = paste("Search popularity on", input$Subject))))+
+      ggtitle(paste("US Heatmap of search popularity for", input$company)) + 
+      theme(plot.title = element_text(size = 25, face = "bold"))
+    return(a)
+  })
   
 })
