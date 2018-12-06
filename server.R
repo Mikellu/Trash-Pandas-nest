@@ -169,7 +169,7 @@ shinyServer(function(input, output) {
   
   output$meme <- renderImage({
     return(list(
-      src = "meme.jpg",
+      src = "image/meme.jpg",
       filetype = "image/jpeg",
       alt = "Welcome to Trash Panda's Nest!"
     ))
