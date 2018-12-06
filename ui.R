@@ -58,10 +58,10 @@ shinyUI(dashboardPage(
           We also have our search hits data from Google Trends provided by Google."),
         p(HTML("<em>Please click on the card to navigate to the website if you are interested.</em>")),
         fluidRow(
-          valueBox("Yahoo Finance", "Stock Dataset", icon = icon("yahoo"), color = "teal", href = "https://trends.google.com/trends/\" target=\"_blank", width = 3),
-          valueBox("Google Trends", "Search Hit API", icon = icon("google"), color = "aqua", href = "https://trends.google.com/trends/\" target=\"_blank", width = 3),
-          valueBox("The Guardian", "News API", icon = icon("newspaper"), color = "light-blue", href = "https://open-platform.theguardian.com/\" target=\"_blank", width = 3),
-          valueBox("The NY Times", "News API", icon = icon("newspaper"), color = "blue", href = "https://developer.nytimes.com/\" target=\"_blank", width = 3)
+          valueBox("Yahoo Finance", "Stock Dataset", icon = icon("yahoo"), color = "teal", href = "https://finance.yahoo.com/", width = 3),
+          valueBox("Google Trends", "Search Hit API", icon = icon("google"), color = "aqua", href = "https://trends.google.com/trends/", width = 3),
+          valueBox("The Guardian", "News API", icon = icon("newspaper"), color = "light-blue", href = "https://open-platform.theguardian.com/", width = 3),
+          valueBox("The NY Times", "News API", icon = icon("newspaper"), color = "blue", href = "https://developer.nytimes.com/", width = 3)
         )
       ),
       # Second tab content
