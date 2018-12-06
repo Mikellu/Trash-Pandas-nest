@@ -22,7 +22,6 @@ shinyUI(dashboardPage(
       menuItem("STOCK AND SEARCH TREND", tabName = "one", icon = icon("chart-line")),
       menuItem("SEARCH HEATMAP", tabName = "two", icon = icon("map")),
       menuItem("3D STOCK GRAPH", tabName = "three", icon = icon("chart-area")),
-      menuItem("POPULARITY TREND", tabName = "four", icon = icon("chart-bar")),
       menuItem("TEAM", tabName = "team", icon = icon("home"))
     ),
     uiOutput("style_tag")
@@ -140,17 +139,6 @@ shinyUI(dashboardPage(
             box(status = "warning", width = NULL,
                 plotlyOutput("plot2", height = 700, width = 800))
           )
-        )
-      ),
-      tabItem(
-        tabName = "four",
-        align = "center",
-        h2("Trend of News Mention with Stock Price and Search Hit"),
-        fluidRow(
-          box(status = "warning")
-        ),
-        fluidRow(
-          p(HTML("Put something here..."))
         )
       ),
       tabItem(

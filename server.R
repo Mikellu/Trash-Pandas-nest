@@ -161,7 +161,7 @@ shinyServer(function(input, output) {
       geom_path() + 
       scale_fill_gradientn(colours=rev(heat.colors(10)),na.value="grey90", limits=c(0,100))+
       coord_map() +
-      guides(fill = guide_legend((title = paste("Search popularity on", input$Subject))))+
+      guides(fill = guide_legend((title = paste("Search popularity on", input$company))))+
       ggtitle(paste("US Heatmap of Search Popularity for", input$company)) + 
       theme(plot.title = element_text(size = 17))
     return(a)
